@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { siteContent } from "@/lib/constants/siteContent";
 import { useNavigation } from "@/hooks/useNavigation";
+import { scrollToHash } from "@/lib/utils/scroll";
 import { fadeInUp, fadeIn } from "@/lib/animation/variants";
 import { ArrowDownRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
@@ -116,6 +117,10 @@ export default function HeroSection() {
           </button>
           <a
             href="#projects"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToHash("#projects");
+            }}
             className="inline-flex items-center gap-2 px-5 md:px-6 py-3 md:py-3.5 rounded-full border border-border hover:border-white/20 hover:bg-white/[0.03] text-sm md:text-base transition-colors"
           >
             查看作品

@@ -8,6 +8,7 @@ import { siteContent } from "@/lib/constants/siteContent";
 import { contactInfo } from "@/lib/constants/contact";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useNavigation } from "@/hooks/useNavigation";
 
 interface Props {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function MobileNav({ isOpen, onClose, onContact }: Props) {
+  const { goTo } = useNavigation();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -46,7 +48,10 @@ export default function MobileNav({ isOpen, onClose, onContact }: Props) {
                   <motion.a
                     key={item.href}
                     href={item.href}
-                    onClick={onClose}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      goTo(item.href);
+                    }}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 + i * 0.06 }}

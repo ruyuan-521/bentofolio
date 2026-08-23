@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils/cn";
 import { ShieldCheck, LogOut, Settings2, LogIn, UserRound } from "lucide-react";
 
 export default function Navbar() {
-  const { isOpen, setIsOpen, scrolled, setShowContact, setShowLogin, closeAll } =
+  const { isOpen, setIsOpen, scrolled, setShowContact, setShowLogin, goTo, closeAll } =
     useNavigation();
   const { me, loading: meLoading, logout } = useAuth();
 
@@ -51,7 +51,10 @@ export default function Navbar() {
           {/* Logo */}
           <a
             href="#home"
-            onClick={closeAll}
+            onClick={(e) => {
+              e.preventDefault();
+              goTo("#home");
+            }}
             className="text-text font-bold tracking-tight text-lg md:text-xl hover:opacity-80 transition-opacity"
           >
             {siteContent.name}
@@ -64,6 +67,10 @@ export default function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goTo(item.href);
+                }}
                 className="px-4 py-2 text-sm text-text-muted hover:text-text transition-colors rounded-full hover:bg-white/[0.04]"
               >
                 {item.label}

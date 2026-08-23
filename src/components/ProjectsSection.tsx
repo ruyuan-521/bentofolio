@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/lib/constants/projects";
 import { scaleIn, fadeInUp } from "@/lib/animation/variants";
+import { scrollToHash } from "@/lib/utils/scroll";
 import { ArrowUpRight, Github, ExternalLink, Heart } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -141,6 +142,10 @@ export default function ProjectsSection() {
         </div>
         <Link
           href="#contact"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToHash("#contact");
+          }}
           className="hidden md:inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors"
         >
           联系我

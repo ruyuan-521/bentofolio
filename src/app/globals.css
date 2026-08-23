@@ -42,9 +42,9 @@ html.light {
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  /* 注意：这里不要加 scroll-behavior: smooth！
+     原生锚点平滑滚动在 Chromium 有抢滚动控制权的 bug（点导航后滑不上去），
+     平滑滚动统一由 scrollToHash() 用 JS scrollIntoView 实现 */
   body {
     background-color: var(--color-bg);
     color: var(--color-text);

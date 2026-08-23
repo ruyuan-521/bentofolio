@@ -10,6 +10,7 @@ import {
   type SetStateAction,
   type ReactNode,
 } from "react";
+import { scrollToHash } from "@/lib/utils/scroll";
 
 /**
  * 导航上下文：Navbar 的按钮 / 各弹窗组件共享同一份状态。
@@ -37,6 +38,8 @@ type NavigationState = {
   scrolled: boolean;
   /** 关闭移动端菜单 */
   closeAll: () => void;
+  /** 锚点跳转：关菜单 + JS 平滑滚动（绕开原生锚点滚动抢滚动控制权的 bug） */
+  goTo: (href: string) => void;
 };
 
 const NavigationContext = createContext<NavigationState | null>(null);
@@ -68,6 +71,11 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     setIsOpen(false);
   }, []);
 
+  const goTo = useCallback((href: string) => {
+    setIsOpen(false);
+    scrollToHash(href);
+  }, []);
+
   return (
     <NavigationContext.Provider
       value={{
@@ -79,6 +87,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         setShowLogin,
         scrolled,
         closeAll,
+        goTo,
       }}
     >
       {children}
