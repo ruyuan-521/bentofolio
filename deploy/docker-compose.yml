@@ -1,0 +1,33 @@
+# ============================================================
+# Docker Compose — 一键容器化部署（不用装 Node/PM2/Nginx）
+# 启动：docker compose up -d
+# 然后 Nginx 反代到 127.0.0.1:3000 即可（或直接改 ports 改成 80:3000）
+# ============================================================
+services:
+  bentofolio:
+    container_name: bentofolio
+    build:
+      context: ..            # 项目根目录
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped  # 崩溃自动重启，服务器重启后自动拉
+    ports:
+      - "127.0.0.1:3000:3000" # 只监听本机 127.0.0.1，通过 Nginx 反代（外网无法直接扫 3000）
+      # - "3000:3000"         # 如果你不跑 Nginx，要直接通过 IP:3000 访问，改成这一行
+    environment:
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    mem_limit: 512m
+    mem_reservation: 128m
+    cpus: "0.75"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"

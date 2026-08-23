@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme {
+  --font-gilroy: "Gilroy", sans-serif;
+  /* 主题色通过运行时变量切换（见 :root 与 html.light），Tailwind 工具类不变 */
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-card-alt: var(--card-alt);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-spotify: #1DB954;
+  --color-github: #fafafa;
+  --color-linkedin: #0A66C2;
+  --color-mail: #ef4444;
+}
+
+/* ---------- 深色主题（默认） ---------- */
+:root {
+  --bg: #0a0a0a;
+  --card: #121212;
+  --card-alt: #1a1a1a;
+  --border: #262626;
+  --text: #fafafa;
+  --text-muted: #a1a1aa;
+  --accent: #fff;
+  --accent-2: #d4d4d8;
+}
+
+/* ---------- 浅色主题（html.light 时生效） ---------- */
+html.light {
+  --bg: #f6f6f7;
+  --card: #ffffff;
+  --card-alt: #f0f0f2;
+  --border: #e2e2e6;
+  --text: #18181b;
+  --text-muted: #71717a;
+  --accent: #18181b;
+  --accent-2: #3f3f46;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-gilroy), system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .card-hover {
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  }
+  .text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+}
+
+/* 临时注释：防止误伤页面内容
+   —— Next.js 15 App Router 已经不再使用 <div id="__next"> 作为根容器，
+   所以不能通过 :not(#__next) 批量隐藏 body 直接子元素，否则会把页面所有内容都隐藏掉。
+   下方我们用精确的 data 属性 / class 选择器只针对 N 按钮本体下手。 */
+/* body > *:not(#__next):not(script):not(style):not(link):not(meta):not(noscript):not(head):not(title) {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(100%) !important;
+} */
+
+/* 隐藏 Next.js 开发模式下左下角的圆形 "N" 按钮（Dev Indicator）
+   —— 用官方标准 data 属性（Next.js 14/15 通用） */
+body > [data-next-development-indicator],
+[data-next-development-indicator] {
+  display: none !important;
+}
+
+/* 兜底：Next.js 有时候会把 Dev Indicator 嵌在一个 div 里，
+   className 通常包含 dev-indicator，直接 display:none。 */
+body > div[class*="dev-indicator"],
+div[class*="dev-indicator"] {
+  display: none !important;
+}
+
+/* 终极兜底：如果以上都不匹配，就用 body 固定在左下角的、正方形、尺寸 30~60px
+   的黑色圆形按钮，精准定位 N 按钮本体，不会误伤其他布局元素 */
+@media screen {
+  body > div[style*="position: fixed"][style*="bottom"] {
+    display: none !important;
+  }
+}
