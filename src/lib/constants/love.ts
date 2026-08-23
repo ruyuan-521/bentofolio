@@ -8,13 +8,13 @@ export const loveConfig = {
 
   /** 左边的人 */
   left: {
-    name: "小渊",
+    name: "渊茹",
     avatar: "", // 空字符串 = 显示文字头像占位；有图填 "/love-avatar-1.jpg"
   },
 
   /** 右边的人 */
   right: {
-    name: "小甜",
+    name: "茹渊",
     avatar: "", // 填 "/love-avatar-2.jpg"
   },
 
