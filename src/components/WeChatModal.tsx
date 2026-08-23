@@ -84,9 +84,9 @@ export default function WeChatModal() {
             {/* 二维码（白底卡片，保证任何主题下二维码都可扫） */}
             <div className="px-6 pb-2 flex justify-center">
               <div className="w-52 h-52 rounded-2xl bg-white p-3 shadow-inner">
-                {/* 二维码图片：放 public/wechat-qr.png（微信「我」→ 二维码名片 → 保存到手机再传电脑） */}
+                {/* 二维码图片：放 public/wechat-qr.jpg（微信「我」→ 二维码名片 → 保存到手机再传电脑） */}
                 <img
-                  src="/wechat-qr.png"
+                  src="/wechat-qr.jpg"
                   alt="微信二维码"
                   className="w-full h-full object-contain"
                   onError={(e) => {

@@ -5,8 +5,8 @@ export const contactInfo = {
   /* 邮箱地址（必填，联系表单会发到这里） */
   email: "13585010039@163.com",
 
-  /* 微信号（显示在微信弹窗里，用户可一键复制；二维码图片放 public/wechat-qr.png） */
-  wechat: "这里填你的微信号",
+  /* 微信号（显示在微信弹窗里，用户可一键复制；二维码图片放 public/wechat-qr.jpg） */
+  wechat: "wxid_lk859ehg98sl29",
 
   /* 电话（可选，留空字符串 "" 则不显示） */
   phone: "",
