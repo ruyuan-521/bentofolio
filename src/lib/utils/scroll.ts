@@ -54,14 +54,18 @@ export function scrollToHash(href: string) {
     cancelAnimationFrame(raf);
     window.removeEventListener("wheel", stop);
     window.removeEventListener("touchstart", stop);
+    window.removeEventListener("touchmove", stop);
     window.removeEventListener("keydown", stop);
     if (stopAnim === stop) stopAnim = null;
   };
   stopAnim = stop;
 
-  // 任何用户输入（滚轮/手指/键盘方向键）立刻交还滚动控制权
+  // 任何用户输入（滚轮/手指滑动/键盘方向键）立刻交还滚动控制权。
+  // 注意 touchstart+touchmove 都要监听：Chrome 原生平滑滚动对触摸手势
+  // 不让步（这正是用户遇到的「往上划只能划一点点」的根因）。
   window.addEventListener("wheel", stop, { passive: true });
   window.addEventListener("touchstart", stop, { passive: true });
+  window.addEventListener("touchmove", stop, { passive: true });
   window.addEventListener("keydown", stop);
 
   const ease = (t: number) => 1 - Math.pow(1 - t, 3); // easeOutCubic
