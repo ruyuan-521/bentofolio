@@ -5,6 +5,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import AboutContactSection from "@/components/AboutContactSection";
 import ContactModal from "@/components/ContactModal";
 import LoginModal from "@/components/LoginModal";
+import WeChatModal from "@/components/WeChatModal";
 import GuestbookSection from "@/components/GuestbookSection";
 import VisitTracker from "@/components/VisitTracker";
 import { NavigationProvider } from "@/hooks/useNavigation";
@@ -49,6 +50,7 @@ export default function Home() {
 
         <ContactModal />
         <LoginModal />
+        <WeChatModal />
       </main>
     </NavigationProvider>
   );

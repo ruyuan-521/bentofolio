@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function MobileNav({ isOpen, onClose, onContact }: Props) {
-  const { goTo } = useNavigation();
+  const { goTo, setShowWechat } = useNavigation();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -101,10 +101,18 @@ export default function MobileNav({ isOpen, onClose, onContact }: Props) {
                     .map((s) => (
                       <a
                         key={s.platform}
-                        href={s.url}
-                        target="_blank"
+                        href={s.platform === "wechat" ? undefined : s.url}
+                        target={s.platform === "wechat" ? undefined : "_blank"}
                         rel="noreferrer noopener"
                         aria-label={s.label}
+                        onClick={
+                          s.platform === "wechat"
+                            ? (e) => {
+                                e.preventDefault();
+                                setShowWechat(true);
+                              }
+                            : undefined
+                        }
                         style={{
                           ["--hover" as never]: platformColors[s.platform],
                         }}

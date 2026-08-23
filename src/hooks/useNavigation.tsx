@@ -34,6 +34,9 @@ type NavigationState = {
   /** 登录弹窗 */
   showLogin: boolean;
   setShowLogin: Dispatch<SetStateAction<boolean>>;
+  /** 微信二维码弹窗 */
+  showWechat: boolean;
+  setShowWechat: Dispatch<SetStateAction<boolean>>;
   /** 页面是否已滚动（Navbar 背景切换用） */
   scrolled: boolean;
   /** 关闭移动端菜单 */
@@ -48,6 +51,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showWechat, setShowWechat] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   /* 滚动时给 navbar 加背景 */
@@ -61,11 +65,11 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   /* 锁滚动（移动端菜单/弹窗打开时）—— Provider 全局只有一份，不会重复锁 */
   useEffect(() => {
     document.body.style.overflow =
-      isOpen || showContact || showLogin ? "hidden" : "";
+      isOpen || showContact || showLogin || showWechat ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, showContact, showLogin]);
+  }, [isOpen, showContact, showLogin, showWechat]);
 
   const closeAll = useCallback(() => {
     setIsOpen(false);
@@ -85,6 +89,8 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         setShowContact,
         showLogin,
         setShowLogin,
+        showWechat,
+        setShowWechat,
         scrolled,
         closeAll,
         goTo,

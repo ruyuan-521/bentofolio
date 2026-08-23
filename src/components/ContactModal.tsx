@@ -11,7 +11,7 @@ import { X, Mail, MapPin, Phone, Send, Check } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export default function ContactModal() {
-  const { showContact, setShowContact } = useNavigation();
+  const { showContact, setShowContact, setShowWechat } = useNavigation();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -227,10 +227,19 @@ export default function ContactModal() {
                       .map((s) => (
                         <a
                           key={s.platform}
-                          href={s.url}
-                          target="_blank"
+                          href={s.platform === "wechat" ? undefined : s.url}
+                          target={s.platform === "wechat" ? undefined : "_blank"}
                           rel="noreferrer noopener"
                           aria-label={s.label}
+                          title={s.label}
+                          onClick={
+                            s.platform === "wechat"
+                              ? (e) => {
+                                  e.preventDefault();
+                                  setShowWechat(true);
+                                }
+                              : undefined
+                          }
                           style={{ ["--hover" as never]: platformColors[s.platform] }}
                           className={cn(
                             "w-10 h-10 rounded-xl border border-border bg-card-alt",

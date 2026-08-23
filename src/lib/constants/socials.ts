@@ -1,6 +1,6 @@
 /* ========== 🔗 修改这里：社交链接 ========== */
-/* 平台类型 platform 可选：github | linkedin | twitter | instagram | mail | website | dribbble | youtube */
-/* 链接留空 "" 则该按钮不会显示 */
+/* 平台类型 platform 可选：github | linkedin | twitter | instagram | mail | website | dribbble | youtube | wechat */
+/* 链接留空 "" 则该按钮不会显示；wechat 特殊：点击弹出二维码弹窗，不走 url 跳转 */
 
 export interface SocialLink {
   platform:
@@ -11,13 +11,19 @@ export interface SocialLink {
     | "mail"
     | "website"
     | "dribbble"
-    | "youtube";
+    | "youtube"
+    | "wechat";
   label: string;
   url: string;
 }
 
 /* TODO: 把 url 改成你自己的链接，不要的可以删掉整个对象 */
 export const socialLinks: SocialLink[] = [
+  {
+    platform: "wechat",
+    label: "微信（扫码加我）",
+    url: "#wechat",
+  },
   {
     platform: "github",
     label: "GitHub 主页",
@@ -67,4 +73,5 @@ export const platformColors: Record<SocialLink["platform"], string> = {
   website: "#ffffff",
   dribbble: "#EA4C89",
   youtube: "#FF0000",
+  wechat: "#07C160",
 };
