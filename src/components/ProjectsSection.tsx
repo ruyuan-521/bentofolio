@@ -227,7 +227,13 @@ export default function ProjectsSection() {
                 ))}
               </div>
               <h3 className="text-xl font-bold mb-1.5">{featured.title}</h3>
-              <p className="text-sm text-text-muted line-clamp-2">{featured.description}</p>
+              <p className="text-sm text-text-muted line-clamp-2 mb-2.5">{featured.description}</p>
+              <Link
+                href={`/projects/${featured.slug}`}
+                className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-text transition-colors"
+              >
+                查看详情 <ArrowUpRight size={14} />
+              </Link>
             </div>
           </div>
         </motion.article>
@@ -298,9 +304,12 @@ export default function ProjectsSection() {
                   {p.description}
                 </p>
                 <div className="flex items-center justify-between text-xs text-text-muted">
-                  <span className="inline-flex items-center gap-1 hover:text-text transition-colors">
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className="inline-flex items-center gap-1 hover:text-text transition-colors"
+                  >
                     查看详情 <ArrowUpRight size={12} />
-                  </span>
+                  </Link>
                   <LikeButton
                     projectKey={p.title}
                     count={likeCounts[p.title] ?? 0}
