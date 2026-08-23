@@ -50,9 +50,9 @@ else
 fi
 
 # --- Step 2: 安装依赖 ----
-info "📦 安装 npm 依赖"
+info "📦 安装 npm 依赖（全量：build 需要 typescript 等 devDependencies）"
 [ -f .env.production ] && info "  → 检测到 .env.production，使用生产环境变量"
-npm ci --omit=dev || npm install --omit=dev
+npm ci || npm install
 
 # --- Step 3: 生产构建（standalone 模式）---
 info "🏗️  执行 next build（standalone 模式，会生成 .next/standalone）"
