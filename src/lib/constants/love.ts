@@ -4,7 +4,7 @@
 
 export const loveConfig = {
   /** 在一起的纪念日（改成你们的真实日期） */
-  startDate: "2026-05-03T11:18:10",
+  startDate: "2024-03-24T18:00:00",
 
   /** 左边的人 */
   left: {
