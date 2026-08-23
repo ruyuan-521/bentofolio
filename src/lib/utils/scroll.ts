@@ -11,7 +11,12 @@ export function scrollToHash(href: string) {
   if (typeof document === "undefined") return;
   const el = document.querySelector(href);
   if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  /* 触屏设备用瞬时滚动：移动端浏览器上平滑滚动动画会和手指滑动抢滚动控制权，
+     表现为「点了导航之后往上划划不动」；桌面（鼠标/触控板）保留平滑动画 */
+  const isTouch =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(pointer: coarse)").matches;
+  el.scrollIntoView({ behavior: isTouch ? "auto" : "smooth", block: "start" });
   // 同步地址栏 hash（replaceState 不会触发浏览器原生锚点滚动）
   history.replaceState(null, "", href);
 }

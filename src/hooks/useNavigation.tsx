@@ -77,7 +77,9 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 
   const goTo = useCallback((href: string) => {
     setIsOpen(false);
-    scrollToHash(href);
+    /* 等一帧再滚：让菜单关闭的 re-render 先落地（body overflow 解锁），
+       部分移动端浏览器在 overflow:hidden 期间会吞掉程序化滚动 */
+    setTimeout(() => scrollToHash(href), 0);
   }, []);
 
   return (
