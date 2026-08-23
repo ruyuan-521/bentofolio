@@ -38,3 +38,5 @@ next-env.d.ts
 
 # 打包产物
 *.zip
+
+*.tar.gz
