@@ -40,7 +40,8 @@ export default function LoginModal() {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  // 打开时自动聚焦
+  // 打开时重置到第一步（只在 open 变化时执行，不能依赖 step，
+  // 否则发码成功 setStep("code") 会立刻被这里重置回 "email" —— 验证码输入界面闪现即消失的元凶）
   useEffect(() => {
     if (!open) return;
     setStep("email");
@@ -48,6 +49,11 @@ export default function LoginModal() {
     setStatus(null);
     setDevCode(null);
     setCooldown(0);
+  }, [open]);
+
+  // 聚焦当前步骤对应的输入框
+  useEffect(() => {
+    if (!open) return;
     if (step === "email") emailInputRef.current?.focus();
     else codeInputRef.current?.focus();
   }, [open, step]);
