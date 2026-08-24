@@ -41,7 +41,8 @@ if [ -d "$APP_DIR/.git" ]; then
   cd "$APP_DIR"
   git fetch origin $BRANCH
   git reset --hard origin/$BRANCH
-  git clean -fd
+  # 注意：保留 .env.local（服务器上的私密配置，不在 git 里）、data、logs
+  git clean -fd -e ".env.local" -e "data" -e "logs"
 else
   info "📥 首次部署，克隆仓库"
   mkdir -p "$(dirname "$APP_DIR")"
@@ -67,6 +68,21 @@ rm -rf .next/standalone/public .next/standalone/.next/static
 cp -r public            .next/standalone/public
 cp -r .next/static      .next/standalone/.next/static
 mkdir -p logs           # PM2 日志目录
+
+# sql.js 是运行时动态 require 的，Next 依赖追踪抓不到 → 必须手动拷进 standalone，
+# 否则生产环境报 ENOENT: sql-wasm.wasm
+if [ -d "node_modules/sql.js" ]; then
+  info "📦 复制 sql.js（SQLite WASM 引擎）到 standalone"
+  rm -rf .next/standalone/node_modules/sql.js
+  cp -r node_modules/sql.js .next/standalone/node_modules/sql.js
+fi
+
+# .env.local 也拷进 standalone：PM2 的 cwd 是 .next/standalone，
+# Next 运行时从 cwd 读 .env 文件，不拷贝的话 SMTP/JWT 配置读不到
+if [ -f ".env.local" ]; then
+  info "📦 复制 .env.local 到 standalone（运行时环境变量）"
+  cp .env.local .next/standalone/.env.local
+fi
 
 # --- Step 4: 0 宕机 reload PM2 ----
 if $PM2 describe "$APP_NAME" >/dev/null 2>&1; then

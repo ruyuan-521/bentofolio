@@ -41,8 +41,14 @@ let _saveTimer: NodeJS.Timeout | null = null;
 let _sqlJsEntry: string | null = null;
 
 // 数据库路径
+// 生产环境（standalone）：PM2 的 cwd 是 .next/standalone，next build 会重建整个 .next，
+// 所以数据库必须放在 .next 外面（项目根/data），否则每次部署数据全丢。
+// 开发环境：process.cwd() 就是项目根，直接用。
 const PROJECT_ROOT = path.resolve(process.cwd());
-const DATA_DIR = path.join(PROJECT_ROOT, "data");
+const IS_STANDALONE = PROJECT_ROOT.endsWith(path.join(".next", "standalone"));
+const DATA_DIR = IS_STANDALONE
+  ? path.join(PROJECT_ROOT, "..", "..", "data")
+  : path.join(PROJECT_ROOT, "data");
 const DB_PATH = path.join(DATA_DIR, "app.db");
 
 if (!fs.existsSync(DATA_DIR)) {
