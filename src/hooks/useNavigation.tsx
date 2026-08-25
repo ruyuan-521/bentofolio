@@ -17,10 +17,10 @@ import { scrollToHash } from "@/lib/utils/scroll";
  *
  * ⚠️ 注意：这里必须是 React Context，不能是普通自定义 hook。
  * 之前用普通 hook 时，每个调用 useNavigation() 的组件（Navbar、
- * ContactModal、LoginModal、HeroSection、AboutContactSection）
+ * LoginModal、HeroSection、AboutContactSection）
  * 都会拿到【各自独立的一份 state】——
- * Navbar 里 setShowContact(true) 只改了 Navbar 自己那份，
- * ContactModal 里的 showContact 永远是 false → 弹窗永远不出现，
+ * Navbar 里改的只改了 Navbar 自己那份，
+ * 弹窗组件里的状态永远是 false → 弹窗永远不出现，
  * 但 body overflow:hidden 的副作用又执行了 → 页面滚动被锁死，
  * 表现为「点了按钮就卡死，没有任何弹窗」。
  */
@@ -28,9 +28,6 @@ type NavigationState = {
   /** 移动端汉堡菜单是否展开 */
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  /** 联系我弹窗 */
-  showContact: boolean;
-  setShowContact: Dispatch<SetStateAction<boolean>>;
   /** 登录弹窗 */
   showLogin: boolean;
   setShowLogin: Dispatch<SetStateAction<boolean>>;
@@ -49,7 +46,6 @@ const NavigationContext = createContext<NavigationState | null>(null);
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [showContact, setShowContact] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showWechat, setShowWechat] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -65,11 +61,11 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   /* 锁滚动（移动端菜单/弹窗打开时）—— Provider 全局只有一份，不会重复锁 */
   useEffect(() => {
     document.body.style.overflow =
-      isOpen || showContact || showLogin || showWechat ? "hidden" : "";
+      isOpen || showLogin || showWechat ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, showContact, showLogin, showWechat]);
+  }, [isOpen, showLogin, showWechat]);
 
   const closeAll = useCallback(() => {
     setIsOpen(false);
@@ -87,8 +83,6 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       value={{
         isOpen,
         setIsOpen,
-        showContact,
-        setShowContact,
         showLogin,
         setShowLogin,
         showWechat,

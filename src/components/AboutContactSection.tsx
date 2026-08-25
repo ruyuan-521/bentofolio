@@ -13,7 +13,7 @@ import { Mail, MapPin, Phone, ArrowUpRight, MessageCircle, Heart, Copy, Check } 
 import { cn } from "@/lib/utils/cn";
 
 export default function AboutContactSection() {
-  const { setShowContact, setShowWechat } = useNavigation();
+  const { setShowWechat } = useNavigation();
   const [copied, setCopied] = useState(false);
 
   const copyWechat = async () => {
@@ -167,8 +167,8 @@ export default function AboutContactSection() {
             </div>
           )}
         </div>
-        <button
-          onClick={() => setShowContact(true)}
+        <a
+          href={`mailto:${contactInfo.email}?subject=${encodeURIComponent("来自网站的留言")}`}
           className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-bg text-text text-sm font-semibold group-hover:bg-opacity-90 transition-colors"
         >
           发消息给我
@@ -176,7 +176,7 @@ export default function AboutContactSection() {
             size={16}
             className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
           />
-        </button>
+        </a>
       </motion.article>
 
       {/* Socials 小卡 */}

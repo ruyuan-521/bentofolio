@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils/cn";
 import { ShieldCheck, LogOut, Settings2, LogIn, UserRound } from "lucide-react";
 
 export default function Navbar() {
-  const { isOpen, setIsOpen, scrolled, setShowContact, setShowLogin, goTo, closeAll } =
+  const { isOpen, setIsOpen, scrolled, setShowLogin, goTo, closeAll } =
     useNavigation();
   const { me, loading: meLoading, logout } = useAuth();
 
@@ -170,7 +170,7 @@ export default function Navbar() {
             )}
 
             <button
-              onClick={() => setShowContact(true)}
+              onClick={() => goTo("#contact")}
               className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-text text-bg text-sm font-medium hover:bg-text-muted transition-colors"
             >
               联系我
@@ -186,10 +186,7 @@ export default function Navbar() {
       <MobileNav
         isOpen={isOpen}
         onClose={closeAll}
-        onContact={() => {
-          setIsOpen(false);
-          setShowContact(true);
-        }}
+        onContact={() => goTo("#contact")}
       />
     </>
   );

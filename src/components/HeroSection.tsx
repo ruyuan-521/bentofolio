@@ -3,15 +3,12 @@
 import { motion } from "motion/react";
 import Image from "next/image";
 import { siteContent } from "@/lib/constants/siteContent";
-import { useNavigation } from "@/hooks/useNavigation";
 import { scrollToHash } from "@/lib/utils/scroll";
 import { fadeInUp, fadeIn } from "@/lib/animation/variants";
 import { ArrowDownRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export default function HeroSection() {
-  const { setShowContact } = useNavigation();
-
   return (
     <>
       {/* Hero Text — 占 col-span-2 md:col-span-2 lg:col-span-3，行跨度 1 */}
@@ -109,7 +106,7 @@ export default function HeroSection() {
           className="flex flex-wrap items-center gap-3"
         >
           <button
-            onClick={() => setShowContact(true)}
+            onClick={() => scrollToHash("#contact")}
             className="group inline-flex items-center gap-2 px-5 md:px-6 py-3 md:py-3.5 rounded-full bg-text text-bg text-sm md:text-base font-semibold hover:bg-text-muted transition-colors"
           >
             联系我

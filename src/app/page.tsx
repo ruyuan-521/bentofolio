@@ -3,7 +3,6 @@ import HeroSection from "@/components/HeroSection";
 import PersonImageSection from "@/components/PersonImageSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import AboutContactSection from "@/components/AboutContactSection";
-import ContactModal from "@/components/ContactModal";
 import LoginModal from "@/components/LoginModal";
 import WeChatModal from "@/components/WeChatModal";
 import GuestbookSection from "@/components/GuestbookSection";
@@ -48,7 +47,6 @@ export default function Home() {
           </footer>
         </section>
 
-        <ContactModal />
         <LoginModal />
         <WeChatModal />
       </main>

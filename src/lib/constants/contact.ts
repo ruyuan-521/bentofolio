@@ -16,7 +16,7 @@ export const contactInfo = {
   phone: "",
 
   /* 位置（城市/国家） */
-  location: "中国",
+  location: "江苏",
 
   /* 当前状态标签（显示在照片卡片上） */
   availability: "正在学习 & 折腾 AI 项目",
