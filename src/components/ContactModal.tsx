@@ -124,7 +124,7 @@ export default function ContactModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-6"
+          className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-6 pb-[12vh] md:pb-6"
         >
           {/* Backdrop */}
           <motion.div
