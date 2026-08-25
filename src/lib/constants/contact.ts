@@ -8,6 +8,10 @@ export const contactInfo = {
   /* 微信号（显示在微信弹窗里，用户可一键复制；二维码图片放 public/wechat-qr.jpg） */
   wechat: "wxid_lk859ehg98sl29",
 
+  /* 抖音号 + 主页链接（显示在联系方式卡片里） */
+  douyinId: "72308132586",
+  douyinUrl: "https://v.douyin.com/iGCLYVjcNrc/",
+
   /* 电话（可选，留空字符串 "" 则不显示） */
   phone: "",
 

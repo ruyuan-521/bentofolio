@@ -1,5 +1,5 @@
 /* ========== 🔗 修改这里：社交链接 ========== */
-/* 平台类型 platform 可选：github | linkedin | twitter | instagram | mail | website | dribbble | youtube | wechat */
+/* 平台类型 platform 可选：github | linkedin | twitter | instagram | mail | website | dribbble | youtube | wechat | douyin */
 /* 链接留空 "" 则该按钮不会显示；wechat 特殊：点击弹出二维码弹窗，不走 url 跳转 */
 
 export interface SocialLink {
@@ -12,7 +12,8 @@ export interface SocialLink {
     | "website"
     | "dribbble"
     | "youtube"
-    | "wechat";
+    | "wechat"
+    | "douyin";
   label: string;
   url: string;
 }
@@ -28,6 +29,11 @@ export const socialLinks: SocialLink[] = [
     platform: "github",
     label: "GitHub 主页",
     url: "https://github.com/ruyuan-521",
+  },
+  {
+    platform: "douyin",
+    label: "抖音主页",
+    url: "https://v.douyin.com/iGCLYVjcNrc/",
   },
   {
     platform: "twitter",
@@ -74,4 +80,5 @@ export const platformColors: Record<SocialLink["platform"], string> = {
   dribbble: "#EA4C89",
   youtube: "#FF0000",
   wechat: "#07C160",
+  douyin: "#FE2C55",
 };

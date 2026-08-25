@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { siteContent } from "@/lib/constants/siteContent";
@@ -8,11 +9,22 @@ import { socialLinks, platformColors } from "@/lib/constants/socials";
 import { SocialIcon } from "@/components/SocialIcon";
 import { useNavigation } from "@/hooks/useNavigation";
 import { fadeInUp, scaleIn } from "@/lib/animation/variants";
-import { Mail, MapPin, Phone, ArrowUpRight, MessageCircle, Heart } from "lucide-react";
+import { Mail, MapPin, Phone, ArrowUpRight, MessageCircle, Heart, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export default function AboutContactSection() {
   const { setShowContact, setShowWechat } = useNavigation();
+  const [copied, setCopied] = useState(false);
+
+  const copyWechat = async () => {
+    try {
+      await navigator.clipboard.writeText(contactInfo.wechat);
+    } catch {
+      /* 剪贴板不可用时静默失败，用户仍可手动复制 */
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <motion.section
@@ -109,6 +121,41 @@ export default function AboutContactSection() {
             <Mail size={16} className="shrink-0" />
             <span className="truncate">{contactInfo.email}</span>
           </a>
+          {/* 微信号 + 一键复制 */}
+          <div className="flex items-center gap-2.5">
+            <span className="text-[#07C160] shrink-0">
+              <SocialIcon platform="wechat" size={16} />
+            </span>
+            <span className="truncate">{contactInfo.wechat}</span>
+            <button
+              type="button"
+              onClick={copyWechat}
+              className="ml-auto inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border border-current/20 hover:bg-black/5 transition-colors shrink-0"
+            >
+              {copied ? (
+                <>
+                  <Check size={12} /> 已复制
+                </>
+              ) : (
+                <>
+                  <Copy size={12} /> 复制
+                </>
+              )}
+            </button>
+          </div>
+          {/* 抖音主页链接 */}
+          <a
+            href={contactInfo.douyinUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="flex items-center gap-2.5 hover:underline underline-offset-4"
+          >
+            <span className="text-[#FE2C55] shrink-0">
+              <SocialIcon platform="douyin" size={16} />
+            </span>
+            <span className="truncate">抖音：{contactInfo.douyinId}</span>
+            <ArrowUpRight size={13} className="shrink-0 opacity-60" />
+          </a>
           <div className="flex items-center gap-2.5 opacity-80">
             <MapPin size={16} className="shrink-0" />
             <span>{contactInfo.location}</span>
@@ -147,26 +194,46 @@ export default function AboutContactSection() {
         <h3 className="text-xl md:text-2xl font-bold mb-5 leading-tight">
           保持联系吧。
         </h3>
-        <div className="grid grid-cols-4 gap-2 md:gap-3">
+
+        {/* 微信专属横幅：最想让人用的联系方式，绿色高亮但不喧宾夺主 */}
+        <button
+          type="button"
+          onClick={() => setShowWechat(true)}
+          className="w-full flex items-center gap-3.5 rounded-2xl border border-[#07C160]/40 bg-[#07C160]/[0.08] p-3.5 mb-4 text-left hover:border-[#07C160]/70 hover:bg-[#07C160]/[0.14] transition-colors group/wechat"
+        >
+          <div className="w-11 h-11 rounded-xl bg-[#07C160]/15 border border-[#07C160]/30 flex items-center justify-center text-[#07C160] shrink-0">
+            <SocialIcon platform="wechat" size={24} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold flex items-center gap-1.5">
+              加我微信
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#07C160]/15 text-[#07C160] border border-[#07C160]/25 font-medium">
+                最快回复
+              </span>
+            </p>
+            <p className="text-xs text-text-muted truncate">
+              扫码加好友，或复制微信号
+            </p>
+          </div>
+          <ArrowUpRight
+            size={16}
+            className="text-[#07C160]/70 shrink-0 transition-transform group-hover/wechat:translate-x-0.5 group-hover/wechat:-translate-y-0.5"
+          />
+        </button>
+
+        {/* 其余平台图标（放大一号） */}
+        <div className="grid grid-cols-4 gap-2.5 md:gap-3">
           {socialLinks
-            .filter((s) => s.url)
+            .filter((s) => s.url && s.platform !== "wechat")
             .slice(0, 8)
             .map((s) => (
               <a
                 key={s.platform}
-                href={s.platform === "wechat" ? undefined : s.url}
-                target={s.platform === "wechat" ? undefined : "_blank"}
+                href={s.url}
+                target="_blank"
                 rel="noreferrer noopener"
                 aria-label={s.label}
                 title={s.label}
-                onClick={
-                  s.platform === "wechat"
-                    ? (e) => {
-                        e.preventDefault();
-                        setShowWechat(true);
-                      }
-                    : undefined
-                }
                 style={{ ["--hover" as never]: platformColors[s.platform] }}
                 className={cn(
                   "aspect-square rounded-2xl border border-border bg-card-alt",
@@ -175,7 +242,7 @@ export default function AboutContactSection() {
                   "transition-all duration-300"
                 )}
               >
-                <SocialIcon platform={s.platform} />
+                <SocialIcon platform={s.platform} size={24} />
               </a>
             ))}
         </div>
